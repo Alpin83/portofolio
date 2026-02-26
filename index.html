@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RdnPrst</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-container">
+      <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
+      <div class="loader-text">RdnPrst</div>
+      <div class="loader-progress">Loading...</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content" style="display: none;">
+    <header>
+      <nav class="navbar">
+        <div class="logo">RdnPrst</div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+        <div class="icons">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span>☰</span>
+        </div>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <div class="text-section">
+        <!-- Area untuk menampilkan nama yang disimpan -->
+        <h1 id="welcome-message">Good Morning, Welcome Back Radeon</h1>
+        <p>
+
+          
+
+<p><strong>Profile</strong><br>
+A student from Semarang, Central Java, Indonesia, pioneering a journey in Information Technology with strong dedication to continuous learning and innovation. Seorang learner who thrives on challenges, combining creativity with technical precision to build impactful solutions.</p>
+
+<p><strong>Skills</strong><br>
+- Python for creative coding, automation, and AI.<br>
+- HTML, CSS, JavaScript for interactive web development.<br>
+- Java and C++ for object-oriented and performance programming.<br>
+- PHP and MySQL for backend and database integration.<br>
+- UI/UX design for clear and user-friendly interfaces.<br>
+- Cybersecurity basics and ethical hacking practices.</p>
+
+<p><strong>Vision & Goals</strong><br>
+Seorang student who believes technology should be both functional and artistic. The ambition is to merge creativity with technical mastery, producing solutions that solve problems and empower communities. With strong roots in Semarang, the long-term vision is to contribute to projects that highlight innovation, inclusivity, and accessibility in technology.</p>
+
+
+
+
+
+        <div class="buttons">
+          <a href="https://www.instagram.com/allpiien?igsh=Zm9sYm80YW8zM2g2" target="_blank">
+          <button class="btn learn">Instagram</button>
+          </a>
+          <button class="btn video">Contact</button>
+        </div>
+      </div>
+      <div class="image-section">
+        <div class="image-frame">
+          <img src="alpin.jpg" alt="Strawberries and daisies">
+        </div>
+      </div>
+    </main>
+
+    <!-- Section Input Nama -->
+    <section class="name-input-section">
+      <div class="name-input-container">
+        <h2>Alfin</h2>
+        <div class="input-wrapper">
+          <input type="text" id="name-input" placeholder="Ketik nama Anda..." maxlength="30">
+          <button id="save-name-btn" class="save-btn">Save</button>
+        </div>
+        <p id="status-message"></p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // JavaScript untuk Loading Screen dan Input Nama
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      const mainContent = document.getElementById('main-content');
+      const nameInput = document.getElementById('name-input');
+      const saveBtn = document.getElementById('save-name-btn');
+      const statusMessage = document.getElementById('status-message');
+      const welcomeMessage = document.getElementById('welcome-message');
+
+      // Loading Animation
+      let progress = 0;
+      const progressText = document.querySelector('.loader-progress');
+      
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          progressText.textContent = 'Complete!';
+          clearInterval(loadingInterval);
+          
+          // Hide loading screen and show main content
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.visibility = 'hidden';
+            mainContent.style.display = 'block';
+            mainContent.style.animation = 'fadeIn 0.5s ease forwards';
+          }, 500);
+        } else {
+          progressText.textContent = Math.floor(progress) + '%';
+        }
+      }, 200);
+
+      // Cek apakah ada nama yang sudah tersimpan
+      const savedName = localStorage.getItem('userName');
+      
+      if (savedName) {
+        welcomeMessage.textContent = 'Good Morning, Welcome Back ' + savedName;
+        nameInput.value = savedName;
+      }
+
+      // Fungsi untuk menyimpan nama
+      function saveName() {
+        const name = nameInput.value.trim();
+        
+        if (name === '') {
+          statusMessage.textContent = '⚠️ Please Input Your Name';
+          statusMessage.className = 'status-message error';
+          return;
+        }
+
+        // Simpan ke localStorage
+        localStorage.setItem('userName', name);
+        
+        // Update tampilan
+        welcomeMessage.textContent = 'Good Morning, Welcome Back ' + name;
+        
+        statusMessage.textContent = '✅ Access Passed';
+        statusMessage.className = 'status-message success';
+        
+        // Hapus pesan setelah 3 detik
+        setTimeout(() => {
+          statusMessage.textContent = '';
+          statusMessage.className = '';
+        }, 3000);
+      }
+
+      // Event listener untuk tombol simpan
+      saveBtn.addEventListener('click', saveName);
+
+      // Event listener untuk tombol Enter pada input
+      nameInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          saveName();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
